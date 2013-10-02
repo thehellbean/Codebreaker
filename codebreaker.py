@@ -4,7 +4,7 @@ from itertools import product
 code = '6666'  # Define the code to break here
 
 
-possible_numbers = '123456789' #  All numbers that can appear in the code
+possible_numbers = '123456' #  All numbers that can appear in the code
 
 
 code_length = 4 #  The length of the code

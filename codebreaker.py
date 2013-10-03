@@ -1,6 +1,6 @@
 from itertools import product
 
-using_user_input = False  # Whether or not you want the user to input the amount of black/white pegs
+using_user_input = True  # Whether or not you want the user to input the amount of black/white pegs
 
 
 code = '6666'  # Define the code to break here
@@ -29,8 +29,7 @@ def calcBlackWhite(guess, answer):
                 continue
             guess[g] = answer[i] = "W"  # Mark as used
         except ValueError:
-            continue # No match
-
+            continue  # No match
     return [str(answer.count("B")), str(answer.count("W"))]  # Return as strings to keep everything iterable
 
 
@@ -53,7 +52,7 @@ def calcScore(potentials):
     # This function calculates the score of a guess and minmaxes to get the best result
     # Since the goal is to remove potentials, the best guess is the one that removes the most potentials
     if len(potentials) == 1:
-      return potentials[0]
+        return potentials[0]
     highest = 0
     for poss in potentials:
         # The total amount of potentials is the highest number of potentials possibly removed by one guess
@@ -82,8 +81,8 @@ def main(potentials):
             break
         print("My guess is {}".format(guess))
         if using_user_input:
-            print('Answer like so: B W where B is the amount of black pegs and W is the amoutn of white pegs')
-            response = input('How many did I get right?').split('')
+            print('Answer like so: B W where B is the amount of black pegs and W is the amount of white pegs')
+            response = raw_input('How many did I get right? ').split(' ')
         else:
             response = calcBlackWhite(guess, code)
             print("Automatically created a response of {} black and {} white".format(response[0], response[1]))

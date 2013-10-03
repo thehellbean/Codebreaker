@@ -1,16 +1,18 @@
 from itertools import product
 
+using_user_input = False  # Whether or not you want the user to input the amount of black/white pegs
+
 
 code = '6666'  # Define the code to break here
 
 
-possible_numbers = '123456789' #  All numbers that can appear in the code
+possible_numbers = '123456'  # All numbers that can appear in the code
 
 
-code_length = 4 #  The length of the code
+code_length = 4  # The length of the code
 
 
-potentials = [''.join(p) for p in product(possible_numbers, repeat=code_length)] #  Creates a list of all possible codes
+potentials = [''.join(p) for p in product(possible_numbers, repeat=code_length)]  # Creates a list of all possible codes
 
 
 def calcBlackWhite(guess, answer):
@@ -54,7 +56,9 @@ def calcScore(potentials):
       return potentials[0]
     highest = 0
     for poss in potentials:
-        removed = len(potentials) # The total amount of potentials is the highest number of potentials possibly removed by one guess, so we use it since we want numbers as low as possible
+        # The total amount of potentials is the highest number of potentials possibly removed by one guess
+        # so we use it since we want numbers as low as possible
+        removed = len(potentials)
         for white in range(5):
             for black in range(5 - white):
                 # We test the amount of potentials removed for possible amount of black/white pegs for each potential
@@ -72,14 +76,17 @@ def calcScore(potentials):
 
 def main(potentials):
     guess = "1122" # We haven't had a chance to grab information yet so we just play a combination
-    for i in range(6): # The goal is to have the program solve the code in 6 or less tries, so we limit it by using a for loop instead of a while loop
+    for i in range(6):  # 6 since the goal is to have the code be solved within 6 guesses
         if guess == code:
             print("I got it right! It's {}".format(guess))
             break
         print("My guess is {}".format(guess))
-        # The call to calcBlackWhite here can easily be replaced with a call to raw_input/input (depending on py version)
-        response = calcBlackWhite(guess, code)  # To avoid human error we use the calcBlackWhite function instead of user input because users are stupid, but this can easily be replaced with a call to input()
-        print("Automatically created a response of {} black and {} white".format(response[0], response[1]))
+        if using_user_input:
+            print('Answer like so: B W where B is the amount of black pegs and W is the amoutn of white pegs')
+            response = input('How many did I get right?').split('')
+        else:
+            response = calcBlackWhite(guess, code)
+            print("Automatically created a response of {} black and {} white".format(response[0], response[1]))
         potentials = removePotentials(guess, response, potentials)
         try:
             potentials.remove(guess)  # Remove the guess, since it obviously wasn't right

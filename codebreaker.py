@@ -6,7 +6,11 @@ using_user_input = False  # Whether or not you want the user to input the amount
 code = '6666'  # Define the code to break here
 
 
+<<<<<<< HEAD
 possible_numbers = '123456'  # All numbers that can appear in the code
+=======
+possible_numbers = '123456' #  All numbers that can appear in the code
+>>>>>>> 47cea3daca03cb3c8952b8f2ef396e14d2ad3b8a
 
 
 code_length = 4  # The length of the code

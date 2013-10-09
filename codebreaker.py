@@ -69,8 +69,10 @@ def calcScore(potentials):
 
 
 def main(potentials):
-    guess = (1, 1, 2, 2)  # We haven't had a chance to grab information yet so we just play a combination
-    for i in range(6):  # 6 since the goal is to have the code be solved within 6 guesses
+    # We haven't had a chance to grab information yet so we just play a combination
+    guess = (1, 1, 2, 2)
+    # 6 since the goal is to have the code be solved within 6 guesses
+    for i in range(6):  
         readable_guess = ','.join(str(g) for g in guess).replace(",", "")
         print("My guess is {}".format(readable_guess))
         print("How many did I get right?")

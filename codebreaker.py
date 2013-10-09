@@ -1,18 +1,13 @@
 from itertools import product
 
-using_user_input = True  # Whether or not you want the user to input the amount of black/white pegs
+# All numbers that can appear in the code
+possible_numbers = (1, 2, 3, 4, 5, 6)
 
+# The length of the code
+code_length = 4
 
-code = '6666'  # Define the code to break here
-
-
-possible_numbers = '123456'  # All numbers that can appear in the code
-
-
-code_length = 4  # The length of the code
-
-
-potentials = [''.join(p) for p in product(possible_numbers, repeat=code_length)]  # Creates a list of all possible codes
+# Create a list of all possible codes
+potentials = [p for p in product(possible_numbers, repeat=code_length)]
 
 
 def calcBlackWhite(guess, answer):
@@ -30,7 +25,7 @@ def calcBlackWhite(guess, answer):
             guess[g] = answer[i] = "W"  # Mark as used
         except ValueError:
             continue  # No match
-    return [str(answer.count("B")), str(answer.count("W"))]  # Return as strings to keep everything iterable
+    return [(answer.count("B")), (answer.count("W"))]
 
 
 def removePotentials(guess, blackwhite, potentials):
@@ -74,23 +69,24 @@ def calcScore(potentials):
 
 
 def main(potentials):
-    guess = "1122" # We haven't had a chance to grab information yet so we just play a combination
+    guess = (1, 1, 2, 2)  # We haven't had a chance to grab information yet so we just play a combination
     for i in range(6):  # 6 since the goal is to have the code be solved within 6 guesses
-        if guess == code:
-            print("I got it right! It's {}".format(guess))
+        readable_guess = ','.join(str(g) for g in guess).replace(",", "")
+        print("My guess is {}".format(readable_guess))
+        print("How many did I get right?")
+        print("Answer like so: B W where B is the amount of black pegs and W is white pegs")
+        # Take user input, split it up so we get the B and W values, and turn them into integers
+        response = map(lambda x: int(x), raw_input().split(' '))
+        if response[0] == 4:
+            print("I got it right!")
             break
-        print("My guess is {}".format(guess))
-        if using_user_input:
-            print('Answer like so: B W where B is the amount of black pegs and W is the amount of white pegs')
-            response = raw_input('How many did I get right? ').split(' ')
-        else:
-            response = calcBlackWhite(guess, code)
-            print("Automatically created a response of {} black and {} white".format(response[0], response[1]))
         potentials = removePotentials(guess, response, potentials)
         try:
-            potentials.remove(guess)  # Remove the guess, since it obviously wasn't right
-        except ValueError:  # This occurs if the guess isn't in the potentials list
-            pass  # It isn't really an issue so we just pass here
+            potentials.remove(guess)
+        # This occurs if the guess has already been removed
+        except ValueError:
+            # It isn't really an issue so we just pass here
+            pass
         guess = calcScore(potentials)
 
 
